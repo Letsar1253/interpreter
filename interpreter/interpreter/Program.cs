@@ -9,6 +9,9 @@ namespace interpreter
             Console.WriteLine("Hello World!");
             var a = new FileReader();
             a.ReadFile();
+            var str = a.GetString();
+            var b = new Parser(str);
+            b.ParsString();
         }
     }
 }
