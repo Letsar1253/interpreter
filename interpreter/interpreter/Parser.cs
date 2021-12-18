@@ -42,71 +42,112 @@ namespace interpreter
 
                         if (Char.IsLetter(ch))
                         {
+                            Programms.Programm1(ch);
                             state = State.A;
                         }
                         else if (Char.IsDigit(ch))
                         {
+                            Programms.Programm4(ch);
                             state = State.B;
-
                         }
                         else
                         {
                             switch (ch)
                             {
                                 case ' ':
+                                    Programms.Programm21();
+                                    state = State.S;
                                     break;
 
                                 case '=':
+                                    Programms.Programm21();
+                                    state = State.E;
                                     break;
 
                                 case '+':
+                                    Programms.Programm8();
+                                    state = State.S;
                                     break;
 
                                 case '-':
+                                    Programms.Programm9();
+                                    state = State.S;
                                     break;
 
                                 case '*':
+                                    Programms.Programm10();
+                                    state = State.S;
                                     break;
 
                                 case '/':
+                                    Programms.Programm11();
+                                    state = State.S;
                                     break;
 
                                 case '<':
+                                    Programms.Programm21();
+                                    state = State.C;
                                     break;
 
                                 case '>':
+                                    Programms.Programm21();
+                                    state = State.D;
                                     break;
 
                                 case '[':
+                                    Programms.Programm12();
+                                    state = State.S;
                                     break;
 
                                 case ']':
+                                    Programms.Programm13();
+                                    state = State.S;
                                     break;
 
                                 case ';':
+                                    Programms.Programm20();
+                                    state = State.S;
                                     break;
 
                                 case '(':
+                                    Programms.Programm14();
+                                    state = State.S;
                                     break;
 
                                 case ')':
+                                    Programms.Programm15();
+                                    state = State.S;
                                     break;
 
                                 case '{':
+                                    Programms.Programm29();
+                                    state = State.S;
                                     break;
 
                                 case '}':
+                                    Programms.Programm30();
+                                    state = State.S;
                                     break;
 
                                 case ',':
+                                    Programms.Programm28();
+                                    state = State.S;
                                     break;
 
                                 case '!':
+                                    Programms.Programm21();
+                                    state = State.D;
                                     break;
 
                                 case '\n':
+                                    Programms.Programm24();
+                                    state = State.S;
                                     break;
 
+                                case '\0':
+                                    Programms.Programm25();
+                                    state = State.S;
+                                    break;
                             }
                         }
 
@@ -118,6 +159,117 @@ namespace interpreter
 
                     case State.A:
 
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm2(ch);
+                            state = State.A;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm2(ch); 
+                            state = State.A;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm3();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm3();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm26();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
+
                         break;
 
                     #endregion
@@ -125,6 +277,117 @@ namespace interpreter
                     #region Константа
 
                     case State.B:
+
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm28(ch);
+                            state = State.S;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm5(ch);
+                            state = State.B;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm6();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm6();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm27();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
 
                         break;
 
@@ -134,6 +397,117 @@ namespace interpreter
 
                     case State.C:
 
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm23(ch);
+                            state = State.S;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm23(ch);
+                            state = State.S;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm16();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm23();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm23();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
+
                         break;
 
                     #endregion
@@ -141,6 +515,117 @@ namespace interpreter
                     #region Оператор >= или >
 
                     case State.D:
+
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm22(ch);
+                            state = State.S;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm22(ch);
+                            state = State.S;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm17();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm22();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm22();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
 
                         break;
 
@@ -150,6 +635,117 @@ namespace interpreter
 
                     case State.E:
 
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm28(ch);
+                            state = State.S;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm28(ch);
+                            state = State.S;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm19();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
+
                         break;
 
                     #endregion
@@ -157,6 +753,117 @@ namespace interpreter
                     #region Операторы == или =
 
                     case State.F:
+
+                        if (Char.IsLetter(ch))
+                        {
+                            Programms.Programm7(ch);
+                            state = State.S;
+                        }
+                        else if (Char.IsDigit(ch))
+                        {
+                            Programms.Programm7(ch);
+                            state = State.S;
+                        }
+                        else
+                        {
+                            switch (ch)
+                            {
+                                case ' ':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '=':
+                                    Programms.Programm18();
+                                    state = State.S;
+                                    break;
+
+                                case '+':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '-':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '*':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '/':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '<':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '>':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '[':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ']':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ';':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '(':
+                                    Programms.Programm7();
+                                    state = State.S;
+                                    break;
+
+                                case ')':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '{':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '}':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case ',':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '!':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\n':
+                                    Programms.Programm28();
+                                    state = State.S;
+                                    break;
+
+                                case '\0':
+                                    Programms.Programm7();
+                                    state = State.S;
+                                    break;
+                            }
+                        }
 
                         break;
 
