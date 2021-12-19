@@ -12,5 +12,294 @@ namespace interpreter
     /// </summary>
     class OPSGenerator
     {
+        private List<string> list;
+
+        //пустые квадратики 
+        private List<string> generatorList = new();
+
+        private List<string> opsList = new();
+
+        private List<string> magazine = new();
+
+        public OPSGenerator(List<string> list)
+        {
+            this.list = list;
+
+            list.RemoveAll(s => s == " " || s == "\n");
+        }
+
+        public void Generate()
+        {
+            generatorList.Add(String.Empty);
+            magazine.Add("O");
+
+            while (generatorList.Count > 0)
+            {
+                var firstItem = generatorList.First();
+                //Если первый элемент генератора НЕ пустой
+                if (!String.IsNullOrEmpty(firstItem))
+                {
+                    opsList.Add(firstItem);
+                    generatorList.Remove(firstItem);
+                    //первый элемент из магазина
+                    var magazineFirst = magazine.First();
+                    //проверка первого элемента из магазина на терминал или нетерминал
+                    if (magazineFirst != "O" && magazineFirst != "L" && magazineFirst != "N"
+                        && magazineFirst != "H" && magazineFirst != "F" && magazineFirst != "P"
+                        && magazineFirst != "W" && magazineFirst != "M" && magazineFirst != "I"
+                        && magazineFirst != "S" && magazineFirst != "V" && magazineFirst != "T"
+                        && magazineFirst != "B" && magazineFirst != "D" && magazineFirst != "E"
+                        && magazineFirst != "C")
+                    {
+                        //Если условие выполняется, то это нетерминал, и надо удалить из магазина
+                        //и первоначального списка
+                        magazine.RemoveAt(0);
+                        list.RemoveAt(0);
+                    }
+                    
+                }
+                //Первый элемент генератора пустой
+                else
+                {
+                    switch (magazine.First())
+                    {
+                        case "O": 
+                            TerminalO(list.First());
+                            break;
+
+                        case "L":
+                            TerminalL(list.First());
+                            break;
+
+                        case "N":
+                            TerminalN(list.First());
+                            break;
+
+                        case "H":
+                            TerminalH(list.First());
+                            break;
+
+                        case "F":
+                            break;
+
+                        case "P":
+                            break;
+
+                        case "W":
+                            break;
+
+                        case "M":
+                            break;
+
+                        case "I":
+                            break;
+
+                        case "S":
+                            break;
+
+                        case "V":
+                            break;
+
+                        case "T":
+                            break;
+
+                        case "B":
+                            break;
+
+                        case "D":
+                            break;
+
+                        case "E":
+                            break;
+
+                        case "C":
+                            break;
+
+                        default:
+                            //Удаляем все
+                            generatorList.Remove(firstItem);
+                            magazine.RemoveAt(0);
+                            list.RemoveAt(0);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void TerminalO(string item)
+        {
+            switch (item)
+            {
+                case "Int":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,"pr6");
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"O");
+                    magazine.Insert(0,"L");
+                    magazine.Insert(0,"Int");
+                    break;
+
+                case "{":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"pr8");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,"pr7");
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"}");
+                    magazine.Insert(0,";");
+                    magazine.Insert(0,"C");
+                    magazine.Insert(0,"F");
+                    magazine.Insert(0,"{");
+                    break;
+
+                default:
+                    throw new ArgumentException("Ошибка нетерминала O");
+                    break;
+            }
+        }
+
+        private void TerminalL(string item)
+        {
+            //первый символ непонятного нетерминала
+            var ch = item.ToCharArray()[0];
+            //Если первый символ - буква, то этот нетерминал - имя
+            if (Char.IsLetter(ch))
+            {
+                //Делаем именно в таком порядке.
+                //Сначала удаляем из генератора пустой символ,
+                //и на его место заносим новые символы в начало,
+                //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                generatorList.RemoveAt(0);
+                generatorList.Insert(0,String.Empty);
+                generatorList.Insert(0,String.Empty);
+                generatorList.Insert(0,"pr9");
+                //Тоже самое и с магазином
+                magazine.RemoveAt(0);
+                magazine.Insert(0,"N");
+                magazine.Insert(0, "H");
+                magazine.Insert(0, "a");
+            }
+            else
+            {
+                throw new ArgumentException("Ошибка нетерминала L");
+            }
+        }
+
+        private void TerminalN(string item)
+        {
+            switch (item)
+            {
+                case ",":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0, String.Empty);
+                    generatorList.Insert(0, "pr9");
+                    generatorList.Insert(0, String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "N");
+                    magazine.Insert(0, "H");
+                    magazine.Insert(0, "a");
+                    magazine.Insert(0, ",");
+                    break;
+
+                case ";":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, ";");
+                    break;
+
+                default:
+                    throw new ArgumentException("Ошибка нетерминала N");
+                    break;
+            }
+        }
+
+        private void TerminalH(string item)
+        {
+            switch (item)
+            {
+                case "=":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"=");
+                    generatorList.Insert(0,"c");
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"c");
+                    magazine.Insert(0,"=");
+                    break;
+
+                case "[":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"m");
+                    generatorList.Insert(0,"c");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,String.Empty);
+                    magazine.Insert(0,"c");
+                    magazine.Insert(0,"m");
+                    break;
+
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private enum Terminals
+        {
+            O,
+            L,
+            N,
+            H,
+            F,
+            P,
+            W,
+            M,
+            I,
+            S,
+            V,
+            T,
+            B,
+            D,
+            E,
+            C
+        }
+
     }
 }

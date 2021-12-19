@@ -168,7 +168,7 @@ namespace interpreter
 
                             case ',':
                                 state = State.S;
-                                programs.Program28();
+                                programs.Program31();
                                 break;
 
                             case '!':
@@ -267,7 +267,7 @@ namespace interpreter
 
                             case ';':
                                 state = State.S;
-                                programs.Program3();
+                                programs.Program26(ch);
                                 break;
 
                             case '(':
@@ -292,7 +292,7 @@ namespace interpreter
 
                             case ',':
                                 state = State.S;
-                                programs.Program3();
+                                programs.Program26(ch);
                                 break;
 
                             case '!':
@@ -391,7 +391,7 @@ namespace interpreter
 
                             case ';':
                                 state = State.S;
-                                programs.Program6();
+                                programs.Program27(ch);
                                 break;
 
                             case '(':
@@ -416,7 +416,7 @@ namespace interpreter
 
                             case ',':
                                 state = State.S;
-                                programs.Program6();
+                                programs.Program27(ch);
                                 break;
 
                             case '!':
@@ -912,7 +912,7 @@ namespace interpreter
 
                             case ',':
                                 state = State.S;
-                                programs.Program31();
+                                programs.Program28();
                                 break;
 
                             case '!':

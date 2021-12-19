@@ -13,6 +13,8 @@ namespace interpreter
             var b = new Parser(str);
             b.ParsString();
             var list = b.GetList();
+            var opsGenerator = new OPSGenerator(list);
+            opsGenerator.Generate();
         }
     }
 }
