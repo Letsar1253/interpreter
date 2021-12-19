@@ -1,5 +1,4 @@
-﻿qdsada
-dsadsa
-ass
-рафгвфзэ
-сяэз
+﻿While (a<2)
+{
+ g=g+1;
+}

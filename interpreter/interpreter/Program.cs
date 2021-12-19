@@ -12,6 +12,7 @@ namespace interpreter
             var str = a.GetString();
             var b = new Parser(str);
             b.ParsString();
+            var list = b.GetList();
         }
     }
 }

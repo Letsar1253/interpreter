@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nVVMcbW1gpjuAyRIKodc1tqMixKTqaubEQXdkcNvi7oKKy03vkdWZefN1qb0yd9WmCxQJKOL+oOqtrGfIFIejA==",
+  "dgSpecHash": "AuL3epnZWCLEf9agdHfPfJNW3HLUcLpypyNsJhf3YZi22B9PI9cUYi6g/jrHiD+K1oHqn8ZFltT5XATqge5Y/w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\interpreter.csproj",
+  "projectFilePath": "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\interpreter.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

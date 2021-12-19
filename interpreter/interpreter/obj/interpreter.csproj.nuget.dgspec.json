@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\interpreter.csproj": {}
+    "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\interpreter.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\interpreter.csproj": {
+    "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\interpreter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\interpreter.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\interpreter.csproj",
         "projectName": "interpreter",
-        "projectPath": "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\interpreter.csproj",
+        "projectPath": "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\interpreter.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\interpreter\\interpreter\\obj\\",
+        "outputPath": "C:\\Users\\User\\Documents\\GitHub\\interpreter\\interpreter\\interpreter\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
