@@ -80,39 +80,51 @@ namespace interpreter
                             break;
 
                         case "F":
+                            TerminalF(list.First());
                             break;
 
                         case "P":
+                            TerminalP(list.First());
                             break;
 
                         case "W":
+                            TerminalW(list.First());
                             break;
 
                         case "M":
+                            TerminalM(list.First());
                             break;
 
                         case "I":
+                            TerminalI(list.First());
                             break;
 
                         case "S":
+                            TerminalS(list.First());
                             break;
 
                         case "V":
+                            TerminalV(list.First());
                             break;
 
                         case "T":
+                            TerminalT(list.First());
                             break;
 
                         case "B":
+                            TerminalB(list.First());
                             break;
 
                         case "D":
+                            TerminalD(list.First());
                             break;
 
                         case "E":
+                            TerminalE(list.First());
                             break;
 
                         case "C":
+                            TerminalC(list.First());
                             break;
 
                         default:
@@ -271,6 +283,782 @@ namespace interpreter
                     magazine.Insert(0, "]");
                     magazine.Insert(0,"c");
                     magazine.Insert(0,"[");
+                    break;
+
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private void TerminalF(string item)
+        {
+            switch (item)
+            {
+                default:
+                    throw new ArgumentException("Ошибка нетерминала D");
+                    break;
+            }
+        }
+
+        private void TerminalP(string item)
+        {
+            switch (item)
+            {
+                case "+":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"M");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"+");
+                    break;
+
+                case "-":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0, "-'");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"M");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"-");
+                    break;
+
+                case "(":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"W");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"(");
+
+                default: 
+
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"W");
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"T");
+                        magazine.Insert(0,"a");
+                    }
+                    //Если первый символ - цифра, то этот нетерминал - константа
+                    else if (Char.IsDigit(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"c");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"W");
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"c");
+                    }
+                    //ошибка
+                    else
+                    {
+                        throw new ArgumentException("Ошибка нетерминала P");
+                    }
+
+                    break;
+            }
+        }
+
+        private void TerminalW(string item)
+        {
+            switch (item)
+            {
+                case "+":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"+");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"W");
+                    magazine.Insert(0,"M");
+                    magazine.Insert(0,"+");
+                    break;
+
+                case "-":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"-");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "W");
+                    magazine.Insert(0,"M");
+                    magazine.Insert(0,"-");
+                    break;
+
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private void TerminalM(string item)
+        {
+            switch (item)
+            {
+                case "+":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"+");
+                    break;
+
+                case "-":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"-'");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"-");
+                    break;
+
+                case "(":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"(");
+                    break;
+
+                default: 
+
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"T");
+                        magazine.Insert(0,"a");
+                    }
+                    //Если первый символ - цифра, то этот нетерминал - константа
+                    else if (Char.IsDigit(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"c");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"c");
+                    }
+                    //ошибка
+                    else
+                    {
+                        throw new ArgumentException("Ошибка нетерминала M");
+                    }
+
+                    break;
+            }
+        }
+
+        private void TerminalI(string item)
+        {
+            switch (item)
+            {
+                case "/":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"/");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"S");
+                    magazine.Insert(0,"/");
+                    break;
+
+                case "*":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"*");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "I");
+                    magazine.Insert(0,"S");
+                    magazine.Insert(0,"*");
+                    break;
+
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private void TerminalS(string item)
+        {
+            switch (item)
+            {
+                case "+":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"+");
+                    break;
+
+                case "-":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"-'");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "G");
+                    magazine.Insert(0,"-");
+                    break;
+
+                case "(":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"(");
+                    break;
+
+                default: 
+
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"T");
+                        magazine.Insert(0,"a");
+                    }
+                    //Если первый символ - цифра, то этот нетерминал - константа
+                    else if (Char.IsDigit(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,"c");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"c");
+                    }
+                    //ошибка
+                    else
+                    {
+                        throw new ArgumentException("Ошибка нетерминала S");
+                    }
+
+                    break;
+            }
+        }
+
+        private void TerminalV(string item)
+        {
+            switch (item)
+            {
+                case "abs":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"abs");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"p");
+                    magazine.Insert(0,"(");
+                    magazine.Insert(0,"abs");
+                    break;
+
+                case "sqrt":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"sqrt");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"p");
+                    magazine.Insert(0,"(");
+                    magazine.Insert(0,"sqrt");
+                    break;
+
+                case "(":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"(");
+                    break;
+
+                default: 
+
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"T");
+                        magazine.Insert(0,"a");
+                    }
+                    //Если первый символ - цифра, то этот нетерминал - константа
+                    else if (Char.IsDigit(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,"c");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"c");
+                    }
+                    //ошибка
+                    else
+                    {
+                        throw new ArgumentException("Ошибка нетерминала V");
+                    }
+
+                    break;
+            }
+        }
+
+        private void TerminalT(string item)
+        {
+            switch (item)
+            {
+                case "[":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"i");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"]");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"[");
+                    break;
+
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private void TerminalB(string item)
+        {
+            switch (item)
+            {
+                case "+":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"D");
+                    magazine.Insert(0,"W");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"+");
+                    break;
+
+                case "-":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0, "-'");
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"D");
+                    magazine.Insert(0,"W");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,"V");
+                    magazine.Insert(0,"-");
+                    break;
+
+                case "(":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"D");
+                    magazine.Insert(0,"W");
+                    magazine.Insert(0,"I");
+                    magazine.Insert(0,")");
+                    magazine.Insert(0,"P");
+                    magazine.Insert(0,"(");
+
+                default: 
+
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"D");
+                        magazine.Insert(0,"W");
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"T");
+                        magazine.Insert(0,"a");
+                    }
+                    //Если первый символ - цифра, то этот нетерминал - константа
+                    else if (Char.IsDigit(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,String.Empty);
+                        generatorList.Insert(0,"c");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0,"D");
+                        magazine.Insert(0,"W");
+                        magazine.Insert(0,"I");
+                        magazine.Insert(0,"c");
+                    }
+                    //ошибка
+                    else
+                    {
+                        throw new ArgumentException("Ошибка нетерминала B");
+                    }
+
+                    break;
+            }
+        }
+
+        private void TerminalD(string item)
+        {
+            switch (item)
+            {
+                case "<=":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,"<=");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"S");
+                    magazine.Insert(0,"<=");
+                    break;
+
+                case ">=":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,">=");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "S");
+                    magazine.Insert(0,">=");
+                    break;
+
+                case "<":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"<");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "S");
+                    magazine.Insert(0,"<");
+                    break;
+
+                case ">":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,">);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "S");
+                    magazine.Insert(0,">");
+                    break;
+
+                case "==":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"==");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "S");
+                    magazine.Insert(0,"==");
+                    break;
+
+                case "!=":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0,"!=");
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0, "S");
+                    magazine.Insert(0,"!=");
+                    break;
+
+                default:
+                    throw new ArgumentException("Ошибка нетерминала D");
+                    break;
+            }
+        }
+
+        private void TerminalE(string item)
+        {
+            switch (item)
+            {
+                default:
+                    //лямда 
+                    magazine.RemoveAt(0);
+                    generatorList.RemoveAt(0);
+                    break;
+            }
+        }
+
+        private void TerminalC(string item)
+        {
+            switch (item)
+            {
+                case ";":
+                    //Делаем именно в таком порядке.
+                    //Сначала удаляем из генератора пустой символ,
+                    //и на его место заносим новые символы в начало,
+                    //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                    generatorList.RemoveAt(0); 
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,String.Empty);
+                    //Тоже самое и с магазином
+                    magazine.RemoveAt(0);
+                    magazine.Insert(0,"C");
+                    magazine.Insert(0,"F");
+                    magazine.Insert(0,";");
                     break;
 
                 default:
