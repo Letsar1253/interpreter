@@ -25,7 +25,7 @@ namespace interpreter
         {
             this.list = list;
 
-            list.RemoveAll(s => s == " " || s == "\n");
+            this.list.RemoveAll(s => s == " " || s == "\n");
         }
 
         public void Generate()
@@ -39,7 +39,7 @@ namespace interpreter
                 //Если первый элемент генератора НЕ пустой
                 if (!String.IsNullOrEmpty(firstItem))
                 {
-                    opsList.Add(firstItem);
+                    opsList.Add(list.First());
                     generatorList.Remove(firstItem);
                     //первый элемент из магазина
                     var magazineFirst = magazine.First();
@@ -212,7 +212,7 @@ namespace interpreter
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, "pr9");
-                    generatorList.Insert(0, String.Empty);
+                    generatorList.Insert(0, ",");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
                     magazine.Insert(0, "N");
@@ -227,7 +227,7 @@ namespace interpreter
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
                     generatorList.RemoveAt(0);
-                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0,";");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
                     magazine.Insert(0, ";");
@@ -265,12 +265,12 @@ namespace interpreter
                     generatorList.RemoveAt(0);
                     generatorList.Insert(0,"m");
                     generatorList.Insert(0,"c");
-                    generatorList.Insert(0,String.Empty);
+                    generatorList.Insert(0, "[");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
-                    magazine.Insert(0,String.Empty);
+                    magazine.Insert(0, "]");
                     magazine.Insert(0,"c");
-                    magazine.Insert(0,"m");
+                    magazine.Insert(0,"[");
                     break;
 
                 default:
@@ -280,26 +280,5 @@ namespace interpreter
                     break;
             }
         }
-
-        private enum Terminals
-        {
-            O,
-            L,
-            N,
-            H,
-            F,
-            P,
-            W,
-            M,
-            I,
-            S,
-            V,
-            T,
-            B,
-            D,
-            E,
-            C
-        }
-
     }
 }
