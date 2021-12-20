@@ -361,6 +361,7 @@ namespace interpreter
                     magazine.Insert(0,")");
                     magazine.Insert(0,"P");
                     magazine.Insert(0,"(");
+                    break;
 
                 default: 
 
@@ -880,6 +881,7 @@ namespace interpreter
                     magazine.Insert(0,")");
                     magazine.Insert(0,"P");
                     magazine.Insert(0,"(");
+                    break;
 
                 default: 
 
@@ -987,7 +989,7 @@ namespace interpreter
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
                     generatorList.RemoveAt(0);
-                    generatorList.Insert(0,">);
+                    generatorList.Insert(0,">");
                     generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
