@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace interpreter
         //пустые квадратики 
         private List<string> generatorList = new();
 
-        private List<string> opsList = new();
+        private ArrayList opsList = new();
 
         private List<string> magazine = new();
 
@@ -25,7 +27,12 @@ namespace interpreter
         {
             this.list = list;
 
-            this.list.RemoveAll(s => s == " " || s == "\n");
+            this.list.RemoveAll(s => s == " " || s == "\n" | s == "\0");
+        }
+
+        public ArrayList GetOPS()
+        {
+            return opsList;
         }
 
         public void Generate()
@@ -33,30 +40,102 @@ namespace interpreter
             generatorList.Add(String.Empty);
             magazine.Add("O");
 
+            var dictionary = new Dictionary<string, Unit>();
+            var opsPrograms = new OPSPrograms();
+
             while (generatorList.Count > 0)
             {
                 var firstItem = generatorList.First();
                 //Если первый элемент генератора НЕ пустой
-                if (!String.IsNullOrEmpty(firstItem))
+                if (!String.IsNullOrEmpty(firstItem) && firstItem != null)
                 {
-                    opsList.Add(list.First());
-                    generatorList.Remove(firstItem);
-                    //первый элемент из магазина
-                    var magazineFirst = magazine.First();
-                    //проверка первого элемента из магазина на терминал или нетерминал
-                    if (magazineFirst != "O" && magazineFirst != "L" && magazineFirst != "N"
-                        && magazineFirst != "H" && magazineFirst != "F" && magazineFirst != "P"
-                        && magazineFirst != "W" && magazineFirst != "M" && magazineFirst != "I"
-                        && magazineFirst != "S" && magazineFirst != "V" && magazineFirst != "T"
-                        && magazineFirst != "B" && magazineFirst != "D" && magazineFirst != "E"
-                        && magazineFirst != "C")
+                    switch (firstItem)
                     {
-                        //Если условие выполняется, то это нетерминал, и надо удалить из магазина
-                        //и первоначального списка
-                        magazine.RemoveAt(0);
-                        list.RemoveAt(0);
+                        case "pr1":
+                            opsPrograms.Program1(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr2":
+                            opsPrograms.Program2(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr3":
+                            opsPrograms.Program3(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr4":
+                            opsPrograms.Program4(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr5":
+                            opsPrograms.Program5(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr6":
+                            opsPrograms.Program6(opsList, list.First());
+                            RemoveAll();
+                            break;
+
+                        case "pr7":
+                            opsPrograms.Program7(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr8":
+                            opsPrograms.Program8(opsList);
+                            RemoveAll();
+                            break;
+
+                        case "pr9":
+                            var unit = opsPrograms.Program9(opsList, list.First());
+                            dictionary.Add(list.First(), unit);
+                            RemoveAll();
+                            break;
+
+                        case "a":
+                            opsList.Add(dictionary.Where(s => s.Key == list.First()).First().Value);
+                            RemoveAll();
+                            break;
+
+                        case "c":
+                            var constStr = list.First();
+                            opsList.Add(Convert.ToInt32(constStr));
+                            RemoveAll();
+                            break;
+
+                        default:
+
+                            //первый элемент из магазина
+                            var magazineFirst = magazine.First();
+                            //проверка первого элемента из магазина на терминал или нетерминал
+                            if (magazineFirst != "O" && magazineFirst != "L" && magazineFirst != "N"
+                                && magazineFirst != "H" && magazineFirst != "F" && magazineFirst != "P"
+                                && magazineFirst != "W" && magazineFirst != "M" && magazineFirst != "I"
+                                && magazineFirst != "S" && magazineFirst != "V" && magazineFirst != "T"
+                                && magazineFirst != "B" && magazineFirst != "D" && magazineFirst != "E"
+                                && magazineFirst != "C" && magazineFirst != String.Empty)
+                            {
+                                //Если условие выполняется, то это нетерминал
+                                opsList.Add(list.First());
+                                generatorList.Remove(firstItem);
+                                magazine.RemoveAt(0);
+                                list.RemoveAt(0);
+                            }
+                            else if (magazineFirst == String.Empty)
+                            {
+                                //Если условие не выполняется, то это терминал
+                                opsList.Add(firstItem);
+                                generatorList.Remove(firstItem);
+                                magazine.RemoveAt(0);
+                            }
+
+                            break;
                     }
-                    
                 }
                 //Первый элемент генератора пустой
                 else
@@ -167,12 +246,10 @@ namespace interpreter
                     generatorList.Insert(0,"pr8");
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
-                    generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,"pr7");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
                     magazine.Insert(0,"}");
-                    magazine.Insert(0,";");
                     magazine.Insert(0,"C");
                     magazine.Insert(0,"F");
                     magazine.Insert(0,"{");
@@ -239,7 +316,7 @@ namespace interpreter
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
                     generatorList.RemoveAt(0);
-                    generatorList.Insert(0,";");
+                    generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
                     magazine.Insert(0, ";");
@@ -263,8 +340,10 @@ namespace interpreter
                     generatorList.RemoveAt(0); 
                     generatorList.Insert(0,"=");
                     generatorList.Insert(0,"c");
+                    generatorList.Insert(0, String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0,"c");
                     magazine.Insert(0,"=");
                     break;
@@ -280,7 +359,7 @@ namespace interpreter
                     generatorList.Insert(0, "[");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
-                    magazine.Insert(0, "]");
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0,"c");
                     magazine.Insert(0,"[");
                     break;
@@ -297,8 +376,33 @@ namespace interpreter
         {
             switch (item)
             {
+
                 default:
-                    throw new ArgumentException("Ошибка нетерминала D");
+                    //первый символ непонятного нетерминала
+                    var ch = item.ToCharArray()[0];
+                    //Если первый символ - буква, то этот нетерминал - имя
+                    if (Char.IsLetter(ch))
+                    {
+                        //Делаем именно в таком порядке.
+                        //Сначала удаляем из генератора пустой символ,
+                        //и на его место заносим новые символы в начало,
+                        //из-за того, что заносим в начало, нужно добавлять с конца!!!
+                        generatorList.RemoveAt(0);
+                        generatorList.Insert(0, "=");
+                        generatorList.Insert(0, String.Empty);
+                        generatorList.Insert(0, String.Empty);
+                        generatorList.Insert(0, String.Empty);
+                        generatorList.Insert(0, "a");
+                        //Тоже самое и с магазином
+                        magazine.RemoveAt(0);
+                        magazine.Insert(0, String.Empty);
+                        magazine.Insert(0, "P");
+                        magazine.Insert(0, "=");
+                        magazine.Insert(0, "T");
+                        magazine.Insert(0, "a");
+                    }
+                    else 
+                        throw new ArgumentException("Ошибка нетерминала F");
                     break;
             }
         }
@@ -424,10 +528,12 @@ namespace interpreter
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
                     generatorList.RemoveAt(0); 
                     generatorList.Insert(0,"+");
+                    generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0,"W");
                     magazine.Insert(0,"M");
                     magazine.Insert(0,"+");
@@ -1069,6 +1175,13 @@ namespace interpreter
                     generatorList.RemoveAt(0);
                     break;
             }
+        }
+
+        private void RemoveAll()
+        {
+            generatorList.RemoveAt(0);
+            magazine.RemoveAt(0);
+            list.RemoveAt(0);
         }
     }
 }

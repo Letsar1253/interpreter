@@ -15,6 +15,9 @@ namespace interpreter
             var list = b.GetList();
             var opsGenerator = new OPSGenerator(list);
             opsGenerator.Generate();
+            var ops = opsGenerator.GetOPS();
+            var interpreter = new Interpreter(ops);
+            interpreter.Start();
         }
     }
 }
