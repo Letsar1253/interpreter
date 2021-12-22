@@ -25,37 +25,38 @@ namespace interpreter
 
         public void Start()
         {
-        object equalBuffer = null;
-        object buffer1 = null, buffer2 = null;
-            foreach (var item in ops)
+            object equalBuffer = null;
+            object buffer1 = null, buffer2 = null;
+            int nextMark;
+            for (int i=0; i< ops.Count;)
             {
                 if (!startProgramBlock)
                 {
-                    if (item is Unit)
+                    if (ops[i] is Unit)
                     {
                         if (previousUnit != null)
                         {
                             previousUnit.Init(Unit.structure.Variable);
                             previousUnit.Set(previousConst);
                         }
-                        previousUnit = item as Unit;
+                        previousUnit = ops[i] as Unit;
                     }
-                    else if (item is int)
+                    else if (ops[i] is int)
                     {
-                        previousConst = (int)item;
+                        previousConst = (int)ops[i];
                     }
-                    else if (item.ToString() == "=")
+                    else if (ops[i].ToString() == "=")
                     {
                         previousUnit.Init(Unit.structure.Variable);
                         previousUnit.Set(previousConst);
                         previousUnit = null;
                     }
-                    else if (item.ToString() == "m")
+                    else if (ops[i].ToString() == "m")
                     {
                         previousUnit.Init(Unit.structure.Array, previousConst);
                         previousUnit = null;
                     }
-                    else if (item.ToString() == "<b>")
+                    else if (ops[i].ToString() == "<b>")
                     {
                         startProgramBlock = true;
                         if (previousUnit != null)
@@ -71,10 +72,10 @@ namespace interpreter
                 }
                 else
                 {
-                    switch (item)
+                    switch (ops[i])
                     {
                         case Unit:
-                            var unit = item as Unit;
+                            var unit = ops[i] as Unit;
                             if (equalBuffer == null)
                                 equalBuffer = unit;
                             else if (buffer1 == null)
@@ -84,7 +85,7 @@ namespace interpreter
                             break;
 
                         case int:
-                            int _const = (int)item;
+                            int _const = (int)ops[i];
                             if (buffer1 == null)
                                 buffer1 = _const;
                             else
@@ -102,9 +103,82 @@ namespace interpreter
                                 buffer1 = (int)buffer1 + (int)buffer2;
                             break;
 
+                        case "-":
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                buffer1 = (buffer1 as Unit) - (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                buffer1 = (buffer1 as Unit) - (int)buffer2;
+                            else if (buffer2 is Unit && buffer1 is int)
+                                buffer1 = (buffer2 as Unit) - (int)buffer1;
+                            else
+                                buffer1 = (int)buffer1 - (int)buffer2;
+                            break;
+
+                        case "*":
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                buffer1 = (buffer1 as Unit) * (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                buffer1 = (buffer1 as Unit) * (int)buffer2;
+                            else if (buffer2 is Unit && buffer1 is int)
+                                buffer1 = (buffer2 as Unit) * (int)buffer1;
+                            else
+                                buffer1 = (int)buffer1 * (int)buffer2;
+                            break;
+
+                        case "/":
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                buffer1 = (buffer1 as Unit) / (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                buffer1 = (buffer1 as Unit) / (int)buffer2;
+                            else if (buffer2 is Unit && buffer1 is int)
+                                buffer1 = (buffer2 as Unit) / (int)buffer1;
+                            else
+                                buffer1 = (int)buffer1 / (int)buffer2;
+                            break;
+
                         case "=":
                             if (equalBuffer is Unit)
                                 (equalBuffer as Unit).Set((int)buffer1);
+                            break;
+
+                        case ">=":
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                buffer1 = (buffer1 as Unit) >= (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                buffer1 = (buffer1 as Unit) >= (int)buffer2;
+                            else if (buffer2 is Unit && buffer1 is int)
+                                buffer1 = (buffer2 as Unit) >= (int)buffer1;
+                            else
+                                buffer1 = (int)buffer1 >= (int)buffer2;
+                            break;
+
+                        case "<=":
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                buffer1 = (buffer1 as Unit) <= (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                buffer1 = (buffer1 as Unit) <= (int)buffer2;
+                            else if (buffer2 is Unit && buffer1 is int)
+                                buffer1 = (buffer2 as Unit) <= (int)buffer1;
+                            else
+                                buffer1 = (int)buffer1 <= (int)buffer2;
+                            break;
+
+                        case Mark:
+                            var mark = ops[i] as Mark;
+                            switch (mark.name)
+                            {
+                                case "<jf>":
+                                    if (!(bool)buffer1)
+                                        i = mark.indexNextMark;
+                                    else
+                                        nextMark = mark.indexNextMark;
+                                    break;
+
+                                case "<j>":
+
+                                    break;
+                            }
+                            
                             break;
 
                         default:

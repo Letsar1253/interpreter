@@ -63,7 +63,8 @@ namespace interpreter
 
                         case "pr3":
                             opsPrograms.Program3(opsList);
-                            RemoveAll();
+                            generatorList.RemoveAt(0);
+                            magazine.RemoveAt(0);
                             break;
 
                         case "pr4":
@@ -73,7 +74,8 @@ namespace interpreter
 
                         case "pr5":
                             opsPrograms.Program5(opsList);
-                            RemoveAll();
+                            generatorList.RemoveAt(0);
+                            magazine.RemoveAt(0);
                             break;
 
                         case "pr6":
@@ -386,8 +388,6 @@ namespace interpreter
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
-                    generatorList.Insert(0, String.Empty);
-                    generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, "pr1");
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
@@ -395,8 +395,8 @@ namespace interpreter
                     generatorList.Insert(0, "pr4");
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0, "}");
-                    magazine.Insert(0, ";");
                     magazine.Insert(0, "C");
                     magazine.Insert(0, "F");
                     magazine.Insert(0, "{");
@@ -417,8 +417,6 @@ namespace interpreter
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
-                    generatorList.Insert(0, String.Empty);
-                    generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, "pr1");
                     generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0, String.Empty);
@@ -426,9 +424,9 @@ namespace interpreter
                     generatorList.Insert(0, String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0, "E");
                     magazine.Insert(0, "}");
-                    magazine.Insert(0, ";");
                     magazine.Insert(0, "C");
                     magazine.Insert(0, "F");
                     magazine.Insert(0, "{");
@@ -626,15 +624,15 @@ namespace interpreter
                     //Сначала удаляем из генератора пустой символ,
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
-                    generatorList.RemoveAt(0); 
-                    generatorList.Insert(0,"+");
+                    generatorList.RemoveAt(0);
                     generatorList.Insert(0, String.Empty);
+                    generatorList.Insert(0,"+");
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
+                    magazine.Insert(0, "W");
                     magazine.Insert(0, String.Empty);
-                    magazine.Insert(0,"W");
                     magazine.Insert(0,"M");
                     magazine.Insert(0,"+");
                     break;
@@ -645,14 +643,14 @@ namespace interpreter
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
                     generatorList.RemoveAt(0);
+                    generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0,"-");
-                    generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0, String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
-                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0, "W");
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0,"M");
                     magazine.Insert(0,"-");
                     break;
@@ -776,15 +774,15 @@ namespace interpreter
                     //Сначала удаляем из генератора пустой символ,
                     //и на его место заносим новые символы в начало,
                     //из-за того, что заносим в начало, нужно добавлять с конца!!!
-                    generatorList.RemoveAt(0); 
+                    generatorList.RemoveAt(0);
+                    generatorList.Insert(0, String.Empty);
                     generatorList.Insert(0,"/");
-                    generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
                     generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
-                    magazine.Insert(0,String.Empty);
                     magazine.Insert(0,"I");
+                    magazine.Insert(0, String.Empty);
                     magazine.Insert(0,"S");
                     magazine.Insert(0,"/");
                     break;
@@ -844,7 +842,7 @@ namespace interpreter
                     generatorList.Insert(0,String.Empty);
                     //Тоже самое и с магазином
                     magazine.RemoveAt(0);
-                    magazine.Insert(0,String.Empty));
+                    magazine.Insert(0,String.Empty);
                     magazine.Insert(0, "G");
                     magazine.Insert(0,"-");
                     break;
