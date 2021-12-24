@@ -22,10 +22,10 @@ namespace interpreter
 
         public Parser(string str)
         {
-            this.str = str;
-
             //убираем из строки символ \r
-            this.str = str.Replace("\r", String.Empty);
+            this.str = str.Replace("\t", String.Empty);
+            this.str = this.str.Replace("\r", String.Empty);
+
 
             //Добавляем конечный символ строки
             this.str += "\0";
@@ -172,7 +172,7 @@ namespace interpreter
                                 break;
 
                             case '!':
-                                state = State.D;
+                                state = State.E;
                                 programs.Program21();
                                 break;
 
@@ -847,12 +847,12 @@ namespace interpreter
 
                             case '+':
                                 state = State.S;
-                                programs.Program28();
+                                programs.Program7(ch);
                                 break;
 
                             case '-':
                                 state = State.S;
-                                programs.Program28();
+                                programs.Program7(ch);
                                 break;
 
                             case '*':

@@ -11,30 +11,31 @@ namespace interpreter
     {
         private List<Unit> units;
         private bool isInt = false;
-        private int indexJf;
-        private int indexWf;
+        private List<int> jfList = new();
+        private List<int> jList = new();
+        private List<int> whileList = new();
 
         public void Program1(ArrayList list)
         {
-            indexJf = list.Count;
             var mark = new Mark();
             mark.name = "<jf>";
+            jfList.Add(list.Count);
             list.Add(mark);
         }
 
         public void Program2(ArrayList list)
         {
-            var mark = (list.ToArray()[indexJf] as Mark);
+            var mark = (list.ToArray()[jList.Last()] as Mark);
             mark.indexNextMark = list.Count;
-            var markEj = new Mark();
-            markEj.name = "<ej>";
-            list.Add(markEj);
+            jList.Remove(jList.Last());
         }
 
         public void Program3(ArrayList list)
         {
-            var mark = (list.ToArray()[indexJf] as Mark);
+            var mark = (list.ToArray()[jfList.Last()] as Mark);
             mark.indexNextMark = list.Count;
+            jfList.Remove(jfList.Last());
+            jList.Add(list.Count);
             var markJ = new Mark();
             markJ.name = "<j>";
             list.Add(markJ);
@@ -42,19 +43,18 @@ namespace interpreter
 
         public void Program4(ArrayList list)
         {
-            indexWf = list.Count;
-            var mark = new Mark();
-            mark.name = "<wj>";
-            list.Add(mark);
+            whileList.Add(list.Count);
         }
 
         public void Program5(ArrayList list)
         {
-            var mark = (list.ToArray()[indexJf] as Mark);
+            var mark = (list.ToArray()[jfList.Last()] as Mark);
             mark.indexNextMark = list.Count;
+            jfList.Remove(jfList.Last());
             var markJ = new Mark();
             markJ.name = "<j>";
-            mark.indexNextMark = indexWf;
+            markJ.indexNextMark = whileList.Last();
+            whileList.Remove(whileList.Last());
             list.Add(markJ);
         }
 

@@ -17,6 +17,7 @@ namespace interpreter
         private bool startProgramBlock = false;
         private Unit previousUnit;
         private int previousConst;
+        private int? index;
 
         public Interpreter(ArrayList ops)
         {
@@ -25,16 +26,16 @@ namespace interpreter
 
         public void Start()
         {
-            object equalBuffer = null;
+            bool _bool = false;
             object buffer1 = null, buffer2 = null;
-            int nextMark;
-            for (int i=0; i< ops.Count;)
+            ArrayList listWaitUnit = new();
+            for (int i=0; i< ops.Count; i++)
             {
                 if (!startProgramBlock)
                 {
                     if (ops[i] is Unit)
                     {
-                        if (previousUnit != null)
+                        if (previousUnit is not null)
                         {
                             previousUnit.Init(Unit.structure.Variable);
                             previousUnit.Set(previousConst);
@@ -59,7 +60,7 @@ namespace interpreter
                     else if (ops[i].ToString() == "<b>")
                     {
                         startProgramBlock = true;
-                        if (previousUnit != null)
+                        if (previousUnit is not null)
                         {
                             previousUnit.Init(Unit.structure.Variable);
                             previousUnit.Set(previousConst);
@@ -76,91 +77,358 @@ namespace interpreter
                     {
                         case Unit:
                             var unit = ops[i] as Unit;
-                            if (equalBuffer == null)
-                                equalBuffer = unit;
-                            else if (buffer1 == null)
+                            if (buffer1 == null)
                                 buffer1 = unit;
-                            else
+                            else if (buffer2 == null)
                                 buffer2 = unit;
+                            else
+                            {
+                                listWaitUnit.Add(buffer1);
+                                buffer1 = buffer2;
+                                buffer2 = unit;
+                            }
+                                
                             break;
 
                         case int:
                             int _const = (int)ops[i];
                             if (buffer1 == null)
                                 buffer1 = _const;
-                            else
+                            else if (buffer2 == null)
                                 buffer2 = _const;
+                            else
+                            {
+                                listWaitUnit.Add(buffer1);
+                                buffer1 = buffer2;
+                                buffer2 = _const;
+                            }
                             break;
 
                         case "+":
+                            if (buffer2 == null && buffer1 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else if (buffer2 == null && buffer1 != null)
+                            {
+                                buffer2 = buffer1;
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            
                             if (buffer1 is Unit && buffer2 is Unit)
                                 buffer1 = (buffer1 as Unit) + (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
                                 buffer1 = (buffer1 as Unit) + (int)buffer2;
                             else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) + (int)buffer1;
+                                buffer1 = (int)buffer1 + (buffer2 as Unit);
                             else
                                 buffer1 = (int)buffer1 + (int)buffer2;
+                            listWaitUnit.Add(buffer1);
+                            buffer1 = null;
+                            buffer2 = null;
                             break;
 
                         case "-":
+                            if (buffer2 == null && buffer1 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else if (buffer2 == null && buffer1 != null)
+                            {
+                                buffer2 = buffer1;
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
                             if (buffer1 is Unit && buffer2 is Unit)
                                 buffer1 = (buffer1 as Unit) - (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
                                 buffer1 = (buffer1 as Unit) - (int)buffer2;
                             else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) - (int)buffer1;
+                                buffer1 = (int)buffer1 - (buffer2 as Unit);
                             else
                                 buffer1 = (int)buffer1 - (int)buffer2;
+                            listWaitUnit.Add(buffer1);
+                            buffer1 = null;
+                            buffer2 = null;
                             break;
 
                         case "*":
+                            if (buffer2 == null && buffer1 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else if (buffer2 == null && buffer1 != null)
+                            {
+                                buffer2 = buffer1;
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
                             if (buffer1 is Unit && buffer2 is Unit)
                                 buffer1 = (buffer1 as Unit) * (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
                                 buffer1 = (buffer1 as Unit) * (int)buffer2;
                             else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) * (int)buffer1;
+                                buffer1 = (int)buffer1 * (buffer2 as Unit);
                             else
                                 buffer1 = (int)buffer1 * (int)buffer2;
+                            listWaitUnit.Add(buffer1);
+                            buffer1 = null;
+                            buffer2 = null;
                             break;
 
                         case "/":
+                            if (buffer2 == null && buffer1 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else if (buffer2 == null && buffer1 != null)
+                            {
+                                buffer2 = buffer1;
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
                             if (buffer1 is Unit && buffer2 is Unit)
                                 buffer1 = (buffer1 as Unit) / (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
                                 buffer1 = (buffer1 as Unit) / (int)buffer2;
                             else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) / (int)buffer1;
+                                buffer1 = (int)buffer1 / (buffer2 as Unit);
                             else
                                 buffer1 = (int)buffer1 / (int)buffer2;
+                            listWaitUnit.Add(buffer1);
+                            buffer1 = null;
+                            buffer2 = null;
                             break;
 
                         case "=":
-                            if (equalBuffer is Unit)
-                                (equalBuffer as Unit).Set((int)buffer1);
+                            if (buffer2 is Unit && buffer1 is Unit)
+                            {
+                                (buffer1 as Unit).Set(buffer2 as Unit);
+                                buffer1 = null;
+                                buffer2 = null;
+                            }
+                            else if (buffer2 is int && buffer1 is Unit)
+                            {
+                                (buffer1 as Unit).Set((int)buffer2);
+                                buffer1 = null;
+                                buffer2 = null;
+                            }
+                            else if (buffer1 is Unit)
+                            {
+                                (listWaitUnit.ToArray()[listWaitUnit.Count - 1] as Unit).Set(buffer1 as Unit);
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else if (buffer1 is int)
+                            {
+                                (listWaitUnit.ToArray()[listWaitUnit.Count - 1] as Unit).Set((int)buffer1);
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            else
+                            {
+                                if (listWaitUnit.ToArray()[listWaitUnit.Count - 1] is Unit && listWaitUnit.Count>2)
+                                    (listWaitUnit.ToArray()[listWaitUnit.Count - 2] as Unit).Set(listWaitUnit.ToArray()[listWaitUnit.Count - 1] as Unit);
+                                else
+                                    (listWaitUnit.ToArray()[listWaitUnit.Count - 2] as Unit).Set((int)listWaitUnit.ToArray()[listWaitUnit.Count - 1]);
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 2);
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
                             break;
 
                         case ">=":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
                             if (buffer1 is Unit && buffer2 is Unit)
-                                buffer1 = (buffer1 as Unit) >= (buffer2 as Unit);
+                                _bool = (buffer1 as Unit) >= (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
-                                buffer1 = (buffer1 as Unit) >= (int)buffer2;
-                            else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) >= (int)buffer1;
+                                _bool = (buffer1 as Unit) >= (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) >= (int)buffer2;
                             else
-                                buffer1 = (int)buffer1 >= (int)buffer2;
+                                _bool = (int)buffer1 >= (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
                             break;
 
                         case "<=":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
                             if (buffer1 is Unit && buffer2 is Unit)
-                                buffer1 = (buffer1 as Unit) <= (buffer2 as Unit);
+                                _bool = (buffer1 as Unit) <= (buffer2 as Unit);
                             else if (buffer1 is Unit && buffer2 is int)
-                                buffer1 = (buffer1 as Unit) <= (int)buffer2;
-                            else if (buffer2 is Unit && buffer1 is int)
-                                buffer1 = (buffer2 as Unit) <= (int)buffer1;
+                                _bool = (buffer1 as Unit) <= (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) <= (int)buffer2;
                             else
-                                buffer1 = (int)buffer1 <= (int)buffer2;
+                                _bool = (int)buffer1 <= (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
+                        case ">":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            if (buffer2 is null)
+                            {
+                                buffer2 = buffer1;
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                            }
+                             
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                _bool = (buffer1 as Unit) > (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) > (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) > (int)buffer2;
+                            else
+                                _bool = (int)buffer1 > (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
+                        case "<":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                _bool = (buffer1 as Unit) < (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) < (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) < (int)buffer2;
+                            else
+                                _bool = (int)buffer1 < (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
+                        case "==":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                _bool = (buffer1 as Unit) == (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) == (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) == (int)buffer2;
+                            else
+                                _bool = (int)buffer1 == (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
+                        case "!=":
+                            if (buffer2 == null)
+                            {
+                                buffer2 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            if (buffer1 == null)
+                            {
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 1];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+                            if (buffer1 is Unit && buffer2 is Unit)
+                                _bool = (buffer1 as Unit) != (buffer2 as Unit);
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) != (int)buffer2;
+                            else if (buffer1 is Unit && buffer2 is int)
+                                _bool = (buffer1 as Unit) != (int)buffer2;
+                            else
+                                _bool = (int)buffer1 != (int)buffer2;
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
+                        case "-'":
+                            if (buffer2 == null)
+                            {
+                                if (buffer1 is Unit)
+                                    (buffer1 as Unit).Change();
+                                else
+                                    buffer1 = (int) buffer1 * -1;
+                            }
+                            else
+                            {
+                                if (buffer2 is Unit)
+                                    (buffer2 as Unit).Change();
+                                else
+                                    buffer2 = (int)buffer2 * -1;
+                            }
                             break;
 
                         case Mark:
@@ -168,21 +436,74 @@ namespace interpreter
                             switch (mark.name)
                             {
                                 case "<jf>":
-                                    if (!(bool)buffer1)
+                                    if (!_bool)
+                                    {
                                         i = mark.indexNextMark;
-                                    else
-                                        nextMark = mark.indexNextMark;
+                                        buffer1 = null;
+                                        buffer2 = null;
+                                    }
                                     break;
 
                                 case "<j>":
-
+                                    if (mark.indexNextMark != 0)
+                                    {
+                                        i = mark.indexNextMark - 1;
+                                        buffer1 = null;
+                                        buffer2 = null;
+                                    }
                                     break;
                             }
                             
                             break;
 
+                        case "abs":
+                            if (buffer1 is Unit)
+                                buffer1 = (buffer1 as Unit).Abs();
+                            else
+                                buffer1 = Math.Abs((int)buffer1);
+                            break;
+
+                        case "sqrt":
+                            if (buffer1 is Unit)
+                                buffer1 = (buffer1 as Unit).Sqrt();
+                            else
+                                buffer1 = (int)Math.Sqrt((double)buffer1);
+                            break;
+
+                        case "w":
+                            Console.WriteLine((buffer1 as Unit).Get());
+                            buffer1 = null;
+                            break;
+
+                        case "r":
+                            int val = Convert.ToInt32(Console.ReadLine());
+                            (buffer1 as Unit).Set(val);
+                            buffer1 = null;
+                            break;
+
+                        case "i":
+                            if (buffer2 is int)
+                                (buffer1 as Unit).SetCurrentIndex((int)buffer2);
+                            else if (buffer2 is Unit)
+                                (buffer1 as Unit).SetCurrentIndex(buffer2 as Unit);
+                            else if (buffer1 is null && buffer2 is null)
+                            {
+                                (listWaitUnit.ToArray()[listWaitUnit.Count - 2] as Unit).SetCurrentIndex((int)listWaitUnit.ToArray()[listWaitUnit.Count - 1]);
+                                buffer1 = listWaitUnit.ToArray()[listWaitUnit.Count - 2];
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 2);
+                                listWaitUnit.RemoveAt(listWaitUnit.Count - 1);
+                            }
+
+                            buffer2 = null;
+                            break;
+
+                        case "dispose":
+                            buffer1 = null;
+                            buffer2 = null;
+                            break;
+
                         default:
-                            //throw new ArgumentException("Ошибка в программном блоке");
+                            throw new ArgumentException("Ошибка в программном блоке");
                             break;
                     }
                 }

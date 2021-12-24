@@ -1,10 +1,6 @@
-﻿Int a=1;
+﻿Int m, a, b, c, d, e, f;
 {
-if (a>=0)
-{
-while (a<3)
-{
-a=a+1
-}
-}
+    a=6; b=7; c=4; m=11; e=2; d=3; f=4;
+    a=a*a+(b-c)/e-m;
+    write(a)
 }
